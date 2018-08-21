@@ -1,6 +1,8 @@
 from threading import Thread
 import socket
 import sys
+if sys.version[0] == '3':
+    raw_input = input
 
 
 class Client:
@@ -11,7 +13,7 @@ class Client:
     def __init__(self, address=server_address):
         self.sock.connect((address, 8080))
         print('Enter your name:')
-        self.name = input('')
+        self.name = raw_input('')
 
         input_thread = Thread(target=self.send_message)
         input_thread.daemon = True
@@ -25,8 +27,8 @@ class Client:
 
     def send_message(self):
         while 1:
-            message = self.name + ":" + input('')
-            self.sock.send(bytes(message, 'utf-8'))
+            message = self.name + ":" + raw_input('')
+            self.sock.send(bytearray(message, 'utf-8'))
 
 
 Client()
